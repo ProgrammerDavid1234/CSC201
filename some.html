@@ -3,64 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sticky Header Example</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    header {
-      background-color: #333;
-      padding: 10px;
-      color: white;
-      text-align: center;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-    }
-
-    section {
-      padding: 20px;
-      margin-top: 60px; /* Adjust margin-top to match header height */
-    }
-
-    /* Add styles for the rest of your content */
-
-    /* Optional: Add styles for better readability */
-    p {
-      line-height: 1.6;
-    }
-  </style>
+  <title>Tic Tac Toe</title>
 </head>
 <body>
-  <header>
-    <h1>Sticky Header Example</h1>
-  </header>
-
-  <section>
-    <p>
-      <!-- Your content goes here -->
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. ...
-    </p>
-  </section>
-
-  <!-- Include your additional sections and content here -->
-
   <script>
-    // Optional: You can add JavaScript functionality here if needed
-    // For example, smooth scrolling to anchor links
+    const board = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', '']
+    ];
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
+    let currentPlayer = 'X';
+    let gameOver = false;
 
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
-      });
-    });
+    function printBoard() {
+      for (let i = 0; i < 3; i++) {
+        console.log(board[i].join(' | '));
+        if (i < 2) console.log('---------');
+      }
+    }
+
+    function checkWin() {
+      // Check rows
+      for (let i = 0; i < 3; i++) {
+        if (board[i][0] === currentPlayer && board[i][1] === currentPlayer && board[i][2] === currentPlayer) {
+          return true;
+        }
+      }
+
+      // Check columns
+      for (let i = 0; i < 3; i++) {
+        if (board[0][i] === currentPlayer && board[1][i] === currentPlayer && board[2][i] === currentPlayer) {
+          return true;
+        }
+      }
+
+      // Check diagonals
+      if (
+        (board[0][0] === currentPlayer && board[1][1] === currentPlayer && board[2][2] === currentPlayer) ||
+        (board[0][2] === currentPlayer && board[1][1] === currentPlayer && board[2][0] === currentPlayer)
+      ) {
+        return true;
+      }
+
+      return false;
+    }
+
+    function checkTie() {
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (board[i][j] === '') {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+
+    function switchPlayer() {
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+
+    function makeMove(row, col) {
+      if (board[row][col] === '' && !gameOver) {
+        board[row][col] = currentPlayer;
+
+        if (checkWin()) {
+          console.log(`Player ${currentPlayer} wins!`);
+          gameOver = true;
+        } else if (checkTie()) {
+          console.log('It\'s a tie!');
+          gameOver = true;
+        } else {
+          switchPlayer();
+        }
+      }
+    }
+
+    function playGame() {
+      console.log('Welcome to Tic Tac Toe!');
+      console.log('Enter your move in the format row,col (e.g., 0,0 for the top-left cell).');
+
+      while (!gameOver) {
+        printBoard();
+
+        const move = prompt(`Player ${currentPlayer}, enter your move:`);
+
+        if (!move) {
+          console.log('Invalid move. Please try again.');
+          continue;
+        }
+
+        const [row, col] = move.split(',').map(Number);
+
+        if (isNaN(row) || isNaN(col) || row < 0 || row >= 3 || col < 0 || col >= 3) {
+          console.log('Invalid move. Please enter valid row and column numbers.');
+        } else {
+          makeMove(row, col);
+        }
+      }
+
+      printBoard();
+      console.log('Game over!');
+    }
+
+    // Start the game
+    playGame();
   </script>
 </body>
 </html>
