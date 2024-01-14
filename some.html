@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sticky Header Example</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #333;
+      padding: 10px;
+      color: white;
+      text-align: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    section {
+      padding: 20px;
+      margin-top: 60px; /* Adjust margin-top to match header height */
+    }
+
+    /* Add styles for the rest of your content */
+
+    /* Optional: Add styles for better readability */
+    p {
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sticky Header Example</h1>
+  </header>
+
+  <section>
+    <p>
+      <!-- Your content goes here -->
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. ...
+    </p>
+  </section>
+
+  <!-- Include your additional sections and content here -->
+
+  <script>
+    // Optional: You can add JavaScript functionality here if needed
+    // For example, smooth scrolling to anchor links
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
